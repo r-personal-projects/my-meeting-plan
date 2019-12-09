@@ -14,11 +14,11 @@ const App: React.FC = () => {
     return (
         <>
             <ThemeProvider theme={getDefaultTheme()}>
-                <CssBaseline/>
+                <CssBaseline />
                 <Router>
                     <Switch>
                         <Route path='/app'>
-                            <LoginGateway/>
+                            <LoginGateway />
                         </Route>
                     </Switch>
                 </Router>
