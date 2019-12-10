@@ -1,9 +1,8 @@
-import React, {Component} from "react";
+import React from "react";
 import {
     AppBar, Divider,
-    Drawer,
-    IconButton,
-    List,
+    Drawer, fade,
+    IconButton, InputBase,
     ListItem,
     ListItemIcon,
     ListItemText,
@@ -12,8 +11,6 @@ import {
     Typography,
     useTheme
 } from "@material-ui/core";
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import PersonIcon from '@material-ui/icons/Person';
 import PizzaIcon from '@material-ui/icons/LocalPizza';
@@ -22,11 +19,12 @@ import NotificationIcon from '@material-ui/icons/Notifications';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import CreateIcon from '@material-ui/icons/Add'
 import clsx from 'clsx';
 import MoreVert from "@material-ui/icons/MoreVert";
 import {isDebug} from "../../../services/DebugService";
-import {Router} from "@material-ui/icons";
 import {MenuItemId, MenuItemType} from "../../../constants/Navigation";
+import {create} from "domain";
 
 const drawerWidth = 240;
 
@@ -84,6 +82,41 @@ const myStyles = makeStyles(theme => ({
     },
     grow: {
         flexGrow: 1,
+    },
+    search: {
+        position: 'relative',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: fade(theme.palette.common.white, 0.15),
+        '&:hover': {
+            backgroundColor: fade(theme.palette.common.white, 0.25),
+        },
+        marginRight: theme.spacing(2),
+        marginLeft: 0,
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: theme.spacing(3),
+            width: 'auto',
+        },
+    },
+    searchIcon: {
+        width: theme.spacing(7),
+        height: '100%',
+        position: 'absolute',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    inputRoot: {
+        color: 'inherit',
+    },
+    inputInput: {
+        padding: theme.spacing(1,1,1,7),
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            width: '200px'
+        }
     }
 }));
 const myToolbarElementsStyles = makeStyles(theme => ({
@@ -180,8 +213,6 @@ interface NavigationProps {
 export default function (Props: NavigationProps) {
     const classes = myStyles();
     const theme = useTheme();
-    // TODO:
-    //const {path, url} = useRouteMatch();
 
     const [open, setOpen] = React.useState(false);
 
@@ -204,6 +235,19 @@ export default function (Props: NavigationProps) {
                         <MenuIcon/>
                     </IconButton>
                     <Typography variant={'h6'} noWrap>My meeting planner</Typography>
+                    <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                            <CreateIcon />
+                        </div>
+                        <InputBase
+                            placeholder="Quick planner"
+                            classes={{
+                                root: classes.inputRoot,
+                                input: classes.inputInput,
+                            }}
+                            inputProps={{ 'aria-label': 'search' }}
+                        />
+                    </div>
                     <div className={classes.grow}/>
                     <ToolbarElements/>
                 </Toolbar>

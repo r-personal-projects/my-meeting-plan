@@ -1,11 +1,9 @@
 import React from "react";
 import NavigationElements from "./service-components/NavigationElements";
 import {makeStyles} from "@material-ui/core";
-import clsx from "clsx";
 import {MenuItemId} from "../../constants/Navigation";
 import Schedule from "./service-components/Schedule";
-import {BrowserRouter, Route, Switch} from "react-router-dom";
-import {updateURL} from "../../services/PathHelper";
+import {BrowserRouter, Route, Switch, useRouteMatch} from "react-router-dom";
 
 const myStyles = makeStyles(theme => ({
     root: {
@@ -30,6 +28,7 @@ const myStyles = makeStyles(theme => ({
 export default function () {
     const classes = myStyles();
     const [activePage, setActivePage] = React.useState(MenuItemId.Dashboard);
+    const {path, url} = useRouteMatch();
 
     function navigationHandler(id: MenuItemId) {
         console.log('setting active page to', id);
@@ -37,6 +36,7 @@ export default function () {
         setActivePage(id);
     }
 
+    console.log('my-path', path);
     return (
         <>
             <div className={classes.root}>
@@ -46,10 +46,10 @@ export default function () {
 
                     <BrowserRouter>
                         <Switch>
-                            <Route path={'/app/' + MenuItemId.Schedule}>
+                            <Route path={(path + '/' + MenuItemId.Schedule)}>
                                 <Schedule />
                             </Route>
-                            <Route path={'/app/'}>
+                            <Route path={'/app'}>
                                 <div>Dashboard</div>
                             </Route>
                         </Switch>
