@@ -1,7 +1,11 @@
 import React from "react";
 import NavigationElements from "./service-components/NavigationElements";
-import {IconButton, makeStyles} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core";
 import clsx from "clsx";
+import {MenuItemId} from "../../constants/Navigation";
+import Schedule from "./service-components/Schedule";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {updateURL} from "../../services/PathHelper";
 
 const myStyles = makeStyles(theme => ({
     root: {
@@ -25,24 +29,31 @@ const myStyles = makeStyles(theme => ({
 
 export default function () {
     const classes = myStyles();
-    const [activePage, setActivePage] = React.useState('dashboard');
+    const [activePage, setActivePage] = React.useState(MenuItemId.Dashboard);
 
-    function navigationHandler(id: string) {
-
+    function navigationHandler(id: MenuItemId) {
+        console.log('setting active page to', id);
+        document.location.href = '/app/' + id;
+        setActivePage(id);
     }
 
     return (
         <>
             <div className={classes.root}>
-                <NavigationElements Callback={navigationHandler} />
+                <NavigationElements Callback={navigationHandler}/>
                 <main className={classes.content}>
                     <div className={classes.toolbar}/>
-                    <div className={clsx(undefined, {[classes.hide]: activePage !== 'dashboard'})}>
-                        Dashboard
-                    </div>
-                    <div className={clsx(undefined, {[classes.hide]: activePage !== 'dashboard'})}>
 
-                    </div>
+                    <BrowserRouter>
+                        <Switch>
+                            <Route path={'/app/' + MenuItemId.Schedule}>
+                                <Schedule />
+                            </Route>
+                            <Route path={'/app/'}>
+                                <div>Dashboard</div>
+                            </Route>
+                        </Switch>
+                    </BrowserRouter>
                 </main>
             </div>
         </>

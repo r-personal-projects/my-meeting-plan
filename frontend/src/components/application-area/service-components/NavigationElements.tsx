@@ -111,7 +111,7 @@ const toolbarElementsList = [
 ];
 
 const createDivider = () => {
-    return {type: MenuItemType.Divider, id: '', text: '', image: (<></>)}
+    return {type: MenuItemType.Divider, id: MenuItemId.EMPTY, text: '', image: (<></>)}
 };
 
 const menuElementsList = [
@@ -174,17 +174,18 @@ function ToolbarElements() {
 }
 
 interface NavigationProps {
-    Callback: (id: string) => any,
+    Callback: (id: MenuItemId) => any,
 }
 
 export default function (Props: NavigationProps) {
     const classes = myStyles();
     const theme = useTheme();
+    // TODO:
+    //const {path, url} = useRouteMatch();
 
     const [open, setOpen] = React.useState(false);
 
-    const handleMenuClick = (id: string) => {
-        console.log(id + ' clicked');
+    const handleMenuClick = (id: MenuItemId) => {
         Props.Callback(id);
     };
 

@@ -1,4 +1,5 @@
 export enum MenuItemId {
+    EMPTY = '',
     Dashboard = 'dashboard',
     Schedule = 'schedule'
 };
