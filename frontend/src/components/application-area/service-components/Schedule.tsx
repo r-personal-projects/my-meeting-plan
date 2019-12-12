@@ -3,7 +3,6 @@ import {createStyles, Grid, makeStyles, Theme, Stepper, Step, StepLabel, Typogra
 import clsx from 'clsx';
 
 
-
 const myStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
@@ -32,6 +31,9 @@ const stepperStyles = makeStyles((theme: Theme) =>
         },
         hide: {
             display: 'none'
+        },
+        block: {
+            display: 'block'
         }
     }),
 );
@@ -64,10 +66,12 @@ function ScheduleStepper(param: ScheduleStepperParameter) {
                 {steps.map((step: ScheduleStep, index) => {
                     return (
                         <Step key={step.label}>
-                            <StepLabel>{step.label}</StepLabel>
-                            <Typography variant="caption" className={clsx({
-                                [classes.hide]: !step.optional
-                            })}>Optional</Typography>
+                            <StepLabel>{step.label}
+                                <Typography variant="caption" className={clsx({
+                                    [classes.block]: step.optional,
+                                    [classes.hide]: !step.optional
+                                })}>Optional</Typography>
+                            </StepLabel>
                         </Step>
                     );
                 })}
