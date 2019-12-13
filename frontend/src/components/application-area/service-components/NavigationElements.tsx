@@ -73,6 +73,9 @@ const myStyles = makeStyles(theme => ({
             width: theme.spacing(9) + 1,
         },
     },
+    drawerItem: {
+        color: theme.palette.text.secondary
+    },
     toolbar: {
         display: 'flex',
         alignItems: 'center',
@@ -275,8 +278,8 @@ export default function (Props: NavigationProps) {
                     if (elem.type === MenuItemType.Element) {
                         return (
                             <ListItem button key={elem.id} onClick={() => handleMenuClick(elem.id)}>
-                                <ListItemIcon>{elem.image}</ListItemIcon>
-                                <ListItemText primary={elem.text}/>
+                                <ListItemIcon className={classes.drawerItem}>{elem.image}</ListItemIcon>
+                                <ListItemText primary={elem.text} className={classes.drawerItem}/>
                             </ListItem>
                         );
                     } else if (elem.type === MenuItemType.Divider) {
