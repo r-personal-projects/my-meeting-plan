@@ -72,6 +72,9 @@ const myStyles = makeStyles(theme => ({
         [theme.breakpoints.up('sm')]: {
             width: theme.spacing(9) + 1,
         },
+        [theme.breakpoints.down('xs')]: {
+            display: 'none'
+        }
     },
     drawerItem: {
         color: theme.palette.text.secondary

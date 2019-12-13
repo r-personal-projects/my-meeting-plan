@@ -11,10 +11,12 @@ import {
     Paper,
     TextField,
     FormControl,
-    InputAdornment
+    Fab,
+    InputAdornment, useMediaQuery, useTheme
 } from "@material-ui/core";
 import SubjectRoundedIcon from '@material-ui/icons/SubjectRounded';
 import clsx from 'clsx';
+import createBreakpoints from "@material-ui/core/styles/createBreakpoints";
 
 
 const myStyles = makeStyles(theme => ({
@@ -23,14 +25,30 @@ const myStyles = makeStyles(theme => ({
         spacing: theme.spacing(2),
     },
     paper: {
+        position: 'relative',
         padding: theme.spacing(2),
         textAlign: 'center',
         color: theme.palette.text.secondary,
+        [theme.breakpoints.down('xs')]: {
+            paddingTop: theme.spacing(1),
+            paddingBottom: theme.spacing(1),
+
+            paddingLeft: theme.spacing(0.5),
+            paddingRight: theme.spacing(0.5),
+        },
     },
     active: {
         backgroundColor: theme.palette.secondary.main
     },
     stepHeading: {},
+    fab: {
+        position: 'absolute',
+        bottom: theme.spacing(2),
+        right: theme.spacing(2)
+    },
+    paperLarge: {
+        paddingBottom: theme.spacing(10),
+    }
 }));
 
 const stepperStyles = makeStyles((theme: Theme) =>
@@ -93,9 +111,9 @@ function getStepContent(index: number, step: number) {
     switch (index) {
         case 0:
             myContent = (
-                <Paper className={classes.paper}>
+                <Paper className={clsx(classes.paper, classes.paperLarge)}>
                     <FormControl fullWidth>
-                        <TextField label={'What is your meeting about?'} InputProps={{
+                        <TextField label={'Subject of your meeting'} InputProps={{
                             startAdornment: (
                                 <InputAdornment position={'start'}>
                                     <SubjectRoundedIcon />
@@ -103,6 +121,14 @@ function getStepContent(index: number, step: number) {
                             )
                         }}/>
                     </FormControl>
+                    <FormControl fullWidth>
+                        <TextField label={'Describe the agenda of your meetig'} multiline />
+                    </FormControl>
+
+                    <Fab variant={'extended'} color={'secondary'} className={classes.fab} onClick={(event) => console.log(event)}>
+                        <SubjectRoundedIcon />
+                        Presets
+                    </Fab>
                 </Paper>
             );
             break;
@@ -186,13 +212,15 @@ function ScheduleStepper(param: ScheduleStepperParameter) {
 
 export default function () {
     const classes = myStyles();
+    const theme = useTheme();
 
     const [step, setStep] = React.useState(0);
+    const belowXs = useMediaQuery(theme.breakpoints.down('xs'));
 
     return (
         <>
             <div className={classes.root}>
-                <Grid container spacing={3}>
+                <Grid component={'form'} container spacing={belowXs ? 1 : 3}>
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
                             <ScheduleStepper step={step}/>

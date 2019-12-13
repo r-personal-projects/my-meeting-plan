@@ -12,6 +12,10 @@ const myStyles = makeStyles(theme => ({
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
+        [theme.breakpoints.down('xs')]: {
+            paddingLeft: 0,
+            paddingRight: 0
+        },
     },
     toolbar: {
         display: 'flex',

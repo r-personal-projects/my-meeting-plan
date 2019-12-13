@@ -18,8 +18,8 @@ export function getDefaultTheme(prefersDarkMode : boolean) : Theme {
                 hint: prefersDarkMode ? grey[300] : grey[700]
             },
             background: {
-                default: prefersDarkMode ? grey[800] : 'white',
-                paper: prefersDarkMode ? grey[900] : '#eeeeee',
+                default: prefersDarkMode ? grey[800] : '#fafafa',
+                paper: prefersDarkMode ? grey[900] : 'white',
             },
         },
     });
