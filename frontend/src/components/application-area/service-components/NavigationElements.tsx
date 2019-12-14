@@ -79,6 +79,9 @@ const myStyles = makeStyles(theme => ({
     drawerItem: {
         color: theme.palette.text.secondary
     },
+    drawerToggle: {
+      color: theme.palette.text.secondary,
+    },
     toolbar: {
         display: 'flex',
         alignItems: 'center',
@@ -271,7 +274,7 @@ export default function (Props: NavigationProps) {
                     }}
                     open={open}>
                 <div className={classes.toolbar}>
-                    <IconButton onClick={handleDrawerToggle}>
+                    <IconButton className={classes.drawerToggle} onClick={handleDrawerToggle}>
                         {theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
                     </IconButton>
                 </div>

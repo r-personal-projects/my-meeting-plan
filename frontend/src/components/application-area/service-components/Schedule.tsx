@@ -76,7 +76,7 @@ const stepperStyles = makeStyles((theme: Theme) =>
 );
 
 class ScheduleStepperParameter {
-    step: number = 0
+    step: string = stepIds[0]
 }
 
 class ScheduleStepData {
@@ -101,54 +101,61 @@ class ScheduleStep {
     content: ReactComponentElement<any>;
 }
 
-function getStepContent(index: number, step: number) {
+const stepIds = ['general', 'time', 'attendees', 'place'];
+
+function getStepContent(stepId: string, step: string) {
     const classes = myStyles();
-    const stepData: ScheduleStepData = getStepData[index];
+    const stepData: ScheduleStepData | undefined = getStepData.get(stepId);
+
+    if (stepData === undefined)
+        return (<></>);
+
     const heading = stepData.label;
 
     let myContent: ReactComponentElement<any>;
 
-    switch (index) {
-        case 0:
+    switch (stepId) {
+        case 'general':
             myContent = (
                 <Paper className={clsx(classes.paper, classes.paperLarge)}>
                     <FormControl fullWidth>
                         <TextField label={'Subject of your meeting'} InputProps={{
                             startAdornment: (
                                 <InputAdornment position={'start'}>
-                                    <SubjectRoundedIcon />
+                                    <SubjectRoundedIcon/>
                                 </InputAdornment>
                             )
                         }}/>
                     </FormControl>
                     <FormControl fullWidth>
-                        <TextField label={'Describe the agenda of your meetig'} multiline />
+                        <TextField label={'Describe the agenda of your meetig'} multiline/>
                     </FormControl>
 
-                    <Fab variant={'extended'} color={'secondary'} className={classes.fab} onClick={(event) => console.log(event)}>
-                        <SubjectRoundedIcon />
+                    <Fab variant={'extended'} color={'secondary'} className={classes.fab}
+                         onClick={(event) => console.log(event)}>
+                        <SubjectRoundedIcon/>
                         Presets
                     </Fab>
                 </Paper>
             );
             break;
-        case 1:
+        case 'attendees':
             myContent = (<div>Content of second element</div>);
             break;
-        case 2:
+        case 'time':
             myContent = (<div>Content of third element</div>);
             break;
-        case 3:
+        case 'place':
             myContent = (<div>Content of fourth element</div>);
             break;
         default:
-            throw new Error('Unimplemented step');
+            throw new Error('Unimplemented step: '+ stepId);
     }
 
     return (
         <Grid item xs={stepData.xs} sm={stepData.sm} lg={stepData.lg}>
             <Paper className={clsx(classes.paper, {
-                [classes.active]: step === index
+                [classes.active]: step === stepId
             })}>
                 <Typography>
                     {heading}
@@ -159,40 +166,51 @@ function getStepContent(index: number, step: number) {
     );
 }
 
-const getStepData: ScheduleStepData[] = [
-    {
+const createStepData = () => {
+    const map = new Map<string, ScheduleStepData>();
+    map.set('general', {
         label: 'Important things',
         xs: 12, sm: 6, lg: 6
-    }, {
+    });
+    map.set('attendees', {
         label: 'Attendees',
         xs: 12, sm: 6, lg: 3, optional: true
-    }, {
+    });
+    map.set('time', {
         label: 'Time',
         xs: 12, sm: 6, lg: 3, optional: true
-    }, {
+    });
+    map.set('place', {
         label: 'Place',
         xs: 12, sm: 6, lg: 12, optional: true
-    },
-];
+    });
+
+    return map;
+};
+
+const getStepData: Map<string, ScheduleStepData> = createStepData();
 
 const getSteps = (params: ScheduleStepperParameter) => {
     const stepData = getStepData;
+    const result: ScheduleStep[] = [];
 
-    return [
-        {data: stepData[0], content: getStepContent(0, params.step)},
-        {data: stepData[1], content: getStepContent(1, params.step)},
-        {data: stepData[2], content: getStepContent(2, params.step)},
-        {data: stepData[3], content: getStepContent(3, params.step)}
-    ];
+
+    stepIds.forEach(key => {
+        const step = stepData.get(key);
+        result.push(new ScheduleStep(step, getStepContent(key, params.step)));
+    });
+
+    return result;
 };
 
 
 function ScheduleStepper(param: ScheduleStepperParameter) {
     const classes = stepperStyles();
+    const step = stepIds.indexOf(param.step);
 
     return (
         <>
-            <Stepper alternativeLabel activeStep={param.step} orientation={'horizontal'}>
+            <Stepper alternativeLabel activeStep={step} orientation={'horizontal'}>
                 {getSteps(param).map((step: ScheduleStep, index, elem) => {
                     return (
                         <Step key={step.data.label}>
@@ -214,7 +232,7 @@ export default function () {
     const classes = myStyles();
     const theme = useTheme();
 
-    const [step, setStep] = React.useState(0);
+    const [step, setStep] = React.useState('general');
     const belowXs = useMediaQuery(theme.breakpoints.down('xs'));
 
     return (
