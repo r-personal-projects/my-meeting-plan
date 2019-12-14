@@ -18,7 +18,8 @@
     "react-scripts": "3.3.0",
     "typeface-roboto": "0.0.75",
     "typescript": "^3.7.3",
-    "@material-ui/icons": "latest"
+    "@material-ui/icons": "latest",
+    "@material-ui/lab": "latest"
   },
   "scripts": {
     "start": "react-scripts start",

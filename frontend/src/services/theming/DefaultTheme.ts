@@ -12,7 +12,7 @@ export function getDefaultTheme(prefersDarkMode : boolean) : Theme {
                 main: prefersDarkMode ? blue[800] : blue[300]
             },
             text: {
-                primary: prefersDarkMode ? 'white' : 'black',
+                primary: prefersDarkMode ? '#fff' : '#000',
                 disabled: prefersDarkMode ? grey[500] : grey[500],
                 secondary: prefersDarkMode ? grey[300] : grey[700],
                 hint: prefersDarkMode ? grey[300] : grey[700]
@@ -22,5 +22,10 @@ export function getDefaultTheme(prefersDarkMode : boolean) : Theme {
                 paper: prefersDarkMode ? grey[900] : 'white',
             },
         },
+        typography: {
+            button: {
+                color: prefersDarkMode ? '#fff' : '#000',
+            }
+        }
     });
 }

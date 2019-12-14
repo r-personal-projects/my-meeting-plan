@@ -1,4 +1,4 @@
-import React, {Component, ReactComponentElement} from "react";
+import React, {Component, ReactComponentElement, useState} from "react";
 import {
     createStyles,
     Grid,
@@ -12,11 +12,14 @@ import {
     TextField,
     FormControl,
     Fab,
-    InputAdornment, useMediaQuery, useTheme
+    InputAdornment, useMediaQuery, useTheme, Popover
 } from "@material-ui/core";
 import SubjectRoundedIcon from '@material-ui/icons/SubjectRounded';
+import SpeedIcon from '@material-ui/icons/Speed';
 import clsx from 'clsx';
 import createBreakpoints from "@material-ui/core/styles/createBreakpoints";
+import {ToggleButton} from '@material-ui/lab';
+import {GeneralContent, TimeContent} from "./schedule/Components";
 
 
 const myStyles = makeStyles(theme => ({
@@ -76,7 +79,15 @@ const stepperStyles = makeStyles((theme: Theme) =>
 );
 
 class ScheduleStepperParameter {
-    step: string = stepIds[0]
+    constructor(step: string, autoTimeSelected: boolean, setAutoTimeSelected: Function) {
+        this.step = step;
+        this.autoTimeSelected = autoTimeSelected;
+        this.setAutoTimeSelected = setAutoTimeSelected;
+    }
+
+    step: string;
+    autoTimeSelected: boolean;
+    setAutoTimeSelected: Function;
 }
 
 class ScheduleStepData {
@@ -103,9 +114,24 @@ class ScheduleStep {
 
 const stepIds = ['general', 'time', 'attendees', 'place'];
 
-function getStepContent(stepId: string, step: string) {
+function Example() {
+    // Declare a new state variable, which we'll call "count"
+    const [count, setCount] = useState(0);
+
+    return (
+        <div>
+            <p>You clicked {count} times</p>
+            <button onClick={() => setCount(count + 1)}>
+                Click me
+            </button>
+        </div>
+    );
+}
+
+function getStepContent(stepId: string, scheduleStepperParameter: ScheduleStepperParameter) {
     const classes = myStyles();
     const stepData: ScheduleStepData | undefined = getStepData.get(stepId);
+    const step = scheduleStepperParameter.step;
 
     if (stepData === undefined)
         return (<></>);
@@ -117,33 +143,16 @@ function getStepContent(stepId: string, step: string) {
     switch (stepId) {
         case 'general':
             myContent = (
-                <Paper className={clsx(classes.paper, classes.paperLarge)}>
-                    <FormControl fullWidth>
-                        <TextField label={'Subject of your meeting'} InputProps={{
-                            startAdornment: (
-                                <InputAdornment position={'start'}>
-                                    <SubjectRoundedIcon/>
-                                </InputAdornment>
-                            )
-                        }}/>
-                    </FormControl>
-                    <FormControl fullWidth>
-                        <TextField label={'Describe the agenda of your meetig'} multiline/>
-                    </FormControl>
-
-                    <Fab variant={'extended'} color={'secondary'} className={classes.fab}
-                         onClick={(event) => console.log(event)}>
-                        <SubjectRoundedIcon/>
-                        Presets
-                    </Fab>
-                </Paper>
+                <GeneralContent />
+            );
+            break;
+        case 'time':
+            myContent = (
+                <TimeContent />
             );
             break;
         case 'attendees':
             myContent = (<div>Content of second element</div>);
-            break;
-        case 'time':
-            myContent = (<div>Content of third element</div>);
             break;
         case 'place':
             myContent = (<div>Content of fourth element</div>);
@@ -197,7 +206,7 @@ const getSteps = (params: ScheduleStepperParameter) => {
 
     stepIds.forEach(key => {
         const step = stepData.get(key);
-        result.push(new ScheduleStep(step, getStepContent(key, params.step)));
+        result.push(new ScheduleStep(step, getStepContent(key, params)));
     });
 
     return result;
@@ -233,7 +242,10 @@ export default function () {
     const theme = useTheme();
 
     const [step, setStep] = React.useState('general');
+    const [autoTimeSelected, setAutoTimeSelected] = React.useState(true);
     const belowXs = useMediaQuery(theme.breakpoints.down('xs'));
+
+    const scheduleStepperParameter: ScheduleStepperParameter = new ScheduleStepperParameter(step, autoTimeSelected, setAutoTimeSelected);
 
     return (
         <>
@@ -241,10 +253,10 @@ export default function () {
                 <Grid component={'form'} container spacing={belowXs ? 1 : 3}>
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
-                            <ScheduleStepper step={step}/>
+                           {ScheduleStepper(scheduleStepperParameter)}
                         </Paper>
                     </Grid>
-                    {getSteps({step: step}).map((step, index, elem) => {
+                    {getSteps(scheduleStepperParameter).map((step, index, elem) => {
                         return (step.content);
                     })}
                 </Grid>
