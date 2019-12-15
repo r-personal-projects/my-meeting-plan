@@ -9,8 +9,10 @@ import {
     Paper,
     Popover,
     TextField,
-    Typography
+    Typography,
 } from "@material-ui/core";
+import DateFnsUtils from '@date-io/date-fns';
+import {KeyboardDatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
 import clsx from "clsx";
 import SubjectRoundedIcon from "@material-ui/icons/SubjectRounded";
 import {ToggleButton} from "@material-ui/lab";
@@ -33,30 +35,64 @@ export function TimeContent() {
 
     return (
         <Paper className={clsx(classes.paper)}>
-            <FormControl fullWidth >
-                <FormControlLabel control={(
+            <FormControl fullWidth>
+                <FormControlLabel onMouseLeave={handlePopoverClose} onMouseEnter={handlePopoverOpen} control={(
                     <ToggleButton value={'check'} selected={autoTimeSelected} className={clsx(classes.toggleButton, {
                         [classes.toggleButtonActive]: autoTimeSelected
                     })}
-                                  onMouseLeave={handlePopoverClose} onMouseEnter={handlePopoverOpen}
                                   onChange={() => setAutoTimeSelected(!autoTimeSelected)}>
                         <SpeedIcon/>
                     </ToggleButton>
                 )} label={autoTimeSelected ? 'auto-time on' : 'auto-time off'}/>
                 <Popover open={popoverOpen} className={classes.popover} classes={{paper: classes.popoverPaper}}
-                         anchorEl={hoverAnchor} anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
-                         transformOrigin={{vertical: 'top', horizontal: 'left'}} onClose={handlePopoverClose}
+                         anchorEl={hoverAnchor} anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+                         transformOrigin={{vertical: 'top', horizontal: 'center'}} onClose={handlePopoverClose}
                          disableRestoreFocus>
                     <Typography>{autoTimeSelected ? 'Deactivate auto-time' : 'Activate auto-time'}</Typography>
                 </Popover>
             </FormControl>
-            <Divider className={classes.sectionDivider} />
-            <FormControl fullWidth >
-                <TextField value={'test'}>
+            <Divider className={classes.sectionDivider}/>
 
-                </TextField>
-            </FormControl>
+            {/* no auto-time */}
+            <div className={clsx({
+                [classes.hide]: autoTimeSelected
+            })}>
+                <ManualTimeComponent/>
+            </div>
+
+            {/* auto-time */}
+            <div className={clsx({
+                [classes.hide]: !autoTimeSelected
+            })}>
+                <div>Some content for autoTime</div>
+            </div>
         </Paper>
+    );
+}
+
+function ManualTimeComponent() {
+
+    const [dateValue, setDateValue] = React.useState<Date | null>(new Date());
+    const handleDateChange = (date: Date | null) => {
+        setDateValue(date);
+    };
+
+    return (
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="dd.MM.yyyy"
+                margin="normal"
+                id="date-picker-inline"
+                label="Date picker inline"
+                value={dateValue}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                    'aria-label': 'change date',
+                }}
+            />
+        </MuiPickersUtilsProvider>
     );
 }
 
@@ -70,7 +106,7 @@ const timeStyles = makeStyles(theme => ({
             paddingTop: theme.spacing(1),
             paddingBottom: theme.spacing(1),
 
-            paddingLeft: theme.spacing(0.5),
+            paddingLeft: theme.spacing(1),
             paddingRight: theme.spacing(0.5),
         },
     },
@@ -85,6 +121,7 @@ const timeStyles = makeStyles(theme => ({
         marginBottom: theme.spacing(1),
     },
     toggleButton: {
+        marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
         color: theme.palette.text.primary,
         '&:hover': {
@@ -93,6 +130,9 @@ const timeStyles = makeStyles(theme => ({
     },
     toggleButtonActive: {
         color: theme.palette.primary.main + ' !important',
+    },
+    hide: {
+        display: 'none'
     }
 }));
 
@@ -138,7 +178,7 @@ const generalStyles = makeStyles(theme => ({
             paddingTop: theme.spacing(1),
             paddingBottom: theme.spacing(1),
 
-            paddingLeft: theme.spacing(0.5),
+            paddingLeft: theme.spacing(1),
             paddingRight: theme.spacing(0.5),
         },
     },
