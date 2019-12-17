@@ -24,7 +24,6 @@ import clsx from 'clsx';
 import MoreVert from "@material-ui/icons/MoreVert";
 import {isDebug} from "../../../services/DebugService";
 import {MenuItemId, MenuItemType} from "../../../constants/Navigation";
-import {create} from "domain";
 
 const drawerWidth = 240;
 

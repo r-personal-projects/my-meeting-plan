@@ -1,4 +1,4 @@
-import React, {Component, ReactComponentElement, useState} from "react";
+import React, {ReactComponentElement, useState} from "react";
 import {
     createStyles,
     Grid,
@@ -9,16 +9,10 @@ import {
     StepLabel,
     Typography,
     Paper,
-    TextField,
-    FormControl,
-    Fab,
-    InputAdornment, useMediaQuery, useTheme, Popover
+    useMediaQuery, useTheme
 } from "@material-ui/core";
-import SubjectRoundedIcon from '@material-ui/icons/SubjectRounded';
-import SpeedIcon from '@material-ui/icons/Speed';
+// noinspection SpellCheckingInspection
 import clsx from 'clsx';
-import createBreakpoints from "@material-ui/core/styles/createBreakpoints";
-import {ToggleButton} from '@material-ui/lab';
 import {GeneralContent, TimeContent} from "./schedule/Components";
 
 
@@ -114,20 +108,6 @@ class ScheduleStep {
 
 const stepIds = ['general', 'time', 'attendees', 'place'];
 
-function Example() {
-    // Declare a new state variable, which we'll call "count"
-    const [count, setCount] = useState(0);
-
-    return (
-        <div>
-            <p>You clicked {count} times</p>
-            <button onClick={() => setCount(count + 1)}>
-                Click me
-            </button>
-        </div>
-    );
-}
-
 function getStepContent(stepId: string, scheduleStepperParameter: ScheduleStepperParameter) {
     const classes = myStyles();
     const stepData: ScheduleStepData | undefined = getStepData.get(stepId);
@@ -220,7 +200,7 @@ function ScheduleStepper(param: ScheduleStepperParameter) {
     return (
         <>
             <Stepper alternativeLabel activeStep={step} orientation={'horizontal'}>
-                {getSteps(param).map((step: ScheduleStep, index, elem) => {
+                {getSteps(param).map((step: ScheduleStep) => {
                     return (
                         <Step key={step.data.label}>
                             <StepLabel>{step.data.label}
@@ -256,7 +236,7 @@ export default function () {
                            {ScheduleStepper(scheduleStepperParameter)}
                         </Paper>
                     </Grid>
-                    {getSteps(scheduleStepperParameter).map((step, index, elem) => {
+                    {getSteps(scheduleStepperParameter).map((step) => {
                         return (step.content);
                     })}
                 </Grid>

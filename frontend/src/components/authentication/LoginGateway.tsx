@@ -1,4 +1,3 @@
-import {BrowserRouter} from "react-router-dom";
 import {isAuthenticated} from "../../services/authentication/AuthenticationService";
 import React from "react";
 import MeetingApp from "../MeetingApp";
