@@ -1,10 +1,10 @@
-import {isAuthenticated} from "../services/auth/AuthHandler";
+import {getAuthToken, isAuthenticated} from "../services/auth/AuthHandler";
 import * as express from "express";
 
 const router = express.Router();
 
 router.use((req, res, next) => {
-    const authToken = req.cookies['auth-token'];
+    const authToken = getAuthToken(req);
     isAuthenticated(authToken, next, () => {
         res.status(403).send();
     });

@@ -1,3 +1,14 @@
+import * as jquery from 'jquery';
+import {apiUrl} from "../../constants/URLs";
+
 export function isAuthenticated() {
-    return true;
+    let authenticated = false;
+    jquery.ajax(apiUrl + '/api', {
+        cache: false,
+        async: false,
+    }).done(t => {
+        authenticated = true
+    });
+
+    return authenticated;
 }

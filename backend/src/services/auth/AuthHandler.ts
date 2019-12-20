@@ -1,16 +1,13 @@
 import uuid from "uuid";
-import {CookieOptions} from "express";
+import {createUser, getUserByUsername, User, UserEntity} from "../data/schemas/UserSchema";
+import * as bcrypt from 'bcrypt';
 
 // TODO make it better!
 const authTokens: Map<String, String> = new Map();
 
 export function authenticate(user: string, password: string, onSuccess: Function, onFail: Function) {
     console.log('authenticating user', user);
-    let authentication = authUser(user, password);
-    if (authentication.success)
-        onSuccess(authentication);
-    else
-        onFail();
+    authUser(user, password, onSuccess, onFail);
 }
 
 export function deAuthenticate(token: string, onSuccess: Function, onFail: Function) {
@@ -28,6 +25,10 @@ export function isAuthenticated(token: string, onSuccess: Function, onFail: Func
     }
 }
 
+export function register(username: string, password: string, email: string, onSuccess: Function, onFail: Function) {
+    registerUser(username, password, email, onSuccess, onFail);
+}
+
 export class Authentication {
     constructor(authToken: string | null, success: boolean) {
         this.authToken = authToken;
@@ -38,20 +39,29 @@ export class Authentication {
     success: boolean;
 }
 
-function authUser(user: string, pass: string) {
-    let success = false;
-    let authToken = null;
-    if (user === 'rubeen' && pass === 'pass') {
-        success = true;
-    }
+export function getAuthToken(req: any) {
+    return req.cookies['auth-token'];
+}
 
+function authUser(username: string, pass: string, onSuccess: Function, onFail: Function) {
+    getUserByUsername(username).then(user => {
+        const success: boolean = user !== null;
 
-    if (success) {
-        authToken = generateAuthToken();
-        authTokens.set(authToken, user);
-    }
+        if (success) {
+            const authToken = generateAuthToken();
+            authTokens.set(authToken, username);
+            onSuccess(new Authentication(authToken, success))
+        } else {
+            onFail();
+        }
+    })
+}
 
-    return new Authentication(authToken, success);
+function registerUser(username: string, password: string, email: string, onSuccess: Function, onFail: Function) {
+    const user: User = {
+        email: email, password: password, username: username
+    };
+    createUser(user, onSuccess, onFail);
 }
 
 function generateAuthToken() {

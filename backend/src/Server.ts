@@ -7,14 +7,15 @@ const authRouter = require('./router/AuthRouter');
 const secureRouter = require('./router/SecuredRouter');
 
 class Server {
-    public app: Application;
-    private port: number;
+    public readonly app: Application;
+    private readonly port: number;
 
     public static bootstrap(port : number | undefined) {
         return new Server(port ? port : 5000);
     }
 
     constructor(port: number) {
+        console.log('Starting the server on port:', port);
         this.port = port;
         this.app = express();
 

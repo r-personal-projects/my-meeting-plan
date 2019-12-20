@@ -1,14 +1,19 @@
 import * as express from 'express';
-import {authenticate, Authentication, deAuthenticate, isAuthenticated} from "../services/auth/AuthHandler";
+import {
+    authenticate,
+    Authentication,
+    deAuthenticate,
+    getAuthToken,
+    isAuthenticated,
+    register
+} from "../services/auth/AuthHandler";
 
 const router = express.Router();
 
 router.post('/login', ((req, res) => {
     const user = req.body.user;
     const pass = req.body.pass;
-    const authToken = req.cookies['auth-token'];
-
-    console.log('user has auth-token...', user, authToken);
+    const authToken = getAuthToken(req);
 
     isAuthenticated(authToken, () => {
         res.status(200).send('already authenticated');
@@ -27,11 +32,30 @@ router.post('/login', ((req, res) => {
 }));
 
 router.post('/register', ((req, res) => {
-    res.status(501).send('you can\'t be registered');
+    const user = req.body.user;
+    const pass = req.body.pass;
+    const mail = req.body.mail;
+    const authToken = getAuthToken(req);
+
+    isAuthenticated(authToken, () => {
+        res.status(418).send('already authenticated');
+    }, () => {
+        if (user === undefined || user.trim() === ''
+            || pass === undefined || pass.trim() === ''
+            || mail === undefined || mail.trim() === '') {
+            res.status(400).send('Invalid request');
+        } else {
+            register(user, pass, mail, () => {
+                res.status(200).send('account created');
+            }, () => {
+                res.status(500).send('account couldn\'t be created');
+            });
+        }
+    });
 }));
 
 router.post('/logout', (req, res) => {
-    const authToken = req.cookies['auth-token'];
+    const authToken = getAuthToken(req);
     deAuthenticate(authToken, () => {
         res.cookie('auth-token', '');
         res.status(200).send('Logged out');

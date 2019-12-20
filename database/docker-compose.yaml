@@ -1,0 +1,25 @@
+version: '3'
+services:
+  database:
+    image: 'mongo'
+    container_name: 'meeting-plan-db'
+    hostname: 'meeting-plan-db'
+    environment:
+      - MONGO_INITDB_DATABASE=my-meeting-db
+      - MONGO_INITDB_USERNAME=admin
+      - MONGO_INITDB_PASSWORD=admin
+    volumes:
+    - ./init-db.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    - ./mongo-volume:/data/db
+    ports:
+    - '27017-27019:27017-27019'
+    networks:
+      database-net:
+        ipv4_address: 10.5.0.2
+
+networks:
+  database-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
