@@ -15,6 +15,8 @@ router.post('/login', ((req, res) => {
     const pass = req.body.pass;
     const authToken = getAuthToken(req);
 
+    console.log('logging in...');
+
     isAuthenticated(authToken, () => {
         res.status(200).send('already authenticated');
     }, () => {
@@ -22,7 +24,7 @@ router.post('/login', ((req, res) => {
             res.status(400).send('Invalid request');
         } else {
             authenticate(user, pass, (authentication: Authentication) => {
-                res.cookie('auth-token', authentication.authToken);
+                res.cookie('auth-token', authentication.authToken, {maxAge: 86400000});
                 res.status(200).send('Login success');
             }, () => {
                 res.status(403).send('Invalid credentials');

@@ -16,7 +16,7 @@ const App: React.FC = () => {
                 <CssBaseline />
                 <Router>
                     <Switch>
-                        <Route path='/app'>
+                        <Route path='/(app|login)'>
                             <LoginGateway />
                         </Route>
                     </Switch>
