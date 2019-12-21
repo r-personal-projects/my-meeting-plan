@@ -17,6 +17,7 @@ import clsx from "clsx";
 import SubjectRoundedIcon from "@material-ui/icons/SubjectRounded";
 import {ToggleButton} from "@material-ui/lab";
 import SpeedIcon from "@material-ui/icons/Speed";
+import {useTranslation} from "react-i18next";
 
 export function TimeContent() {
     const classes = timeStyles();
@@ -31,6 +32,7 @@ export function TimeContent() {
         setHoverAnchor(null);
     };
     const popoverOpen = Boolean(hoverAnchor);
+    const {t} = useTranslation('schedule-time-content');
 
 
     return (
@@ -43,12 +45,12 @@ export function TimeContent() {
                                   onChange={() => setAutoTimeSelected(!autoTimeSelected)}>
                         <SpeedIcon/>
                     </ToggleButton>
-                )} label={autoTimeSelected ? 'auto-time on' : 'auto-time off'}/>
+                )} label={autoTimeSelected ? t('auto-time-on') : t('auto-time-off')}/>
                 <Popover open={popoverOpen} className={classes.popover} classes={{paper: classes.popoverPaper}}
                          anchorEl={hoverAnchor} anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                          transformOrigin={{vertical: 'top', horizontal: 'center'}} onClose={handlePopoverClose}
                          disableRestoreFocus>
-                    <Typography>{autoTimeSelected ? 'Deactivate auto-time' : 'Activate auto-time'}</Typography>
+                    <Typography>{autoTimeSelected ? t('deactivate-auto-time') : t('activate-auto-time')}</Typography>
                 </Popover>
             </FormControl>
             <Divider className={classes.sectionDivider}/>
@@ -85,7 +87,7 @@ function ManualTimeComponent() {
                 format="dd.MM.yyyy"
                 margin="normal"
                 id="date-picker-inline"
-                label="Date picker inline"
+                label="TODO"
                 value={dateValue}
                 onChange={handleDateChange}
                 KeyboardButtonProps={{
@@ -138,11 +140,12 @@ const timeStyles = makeStyles(theme => ({
 
 export function GeneralContent() {
     const classes = generalStyles();
+    const {t} = useTranslation('schedule-general-content');
 
     return (
         <Paper className={clsx(classes.paper, classes.paperLarge)}>
             <FormControl fullWidth>
-                <TextField label={'Subject of your meeting'} InputProps={{
+                <TextField label={t('subject-label')} InputProps={{
                     startAdornment: (
                         <InputAdornment position={'start'}>
                             <SubjectRoundedIcon/>
@@ -151,18 +154,17 @@ export function GeneralContent() {
                 }}/>
             </FormControl>
             <FormControl fullWidth>
-                <TextField label={'Describe the agenda of your meeting'} multiline/>
+                <TextField label={t('description-label')} multiline/>
             </FormControl>
 
             <Fab variant={'extended'} color={'secondary'} className={classes.fab}
                  onClick={(event) => console.log(event)}>
                 <SubjectRoundedIcon/>
-                Presets
+                {t('presets-label')}
             </Fab>
         </Paper>
     );
 }
-
 
 const generalStyles = makeStyles(theme => ({
     root: {
