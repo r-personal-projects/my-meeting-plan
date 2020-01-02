@@ -6,16 +6,17 @@ import {
     ListItem,
     ListItemIcon,
     ListItemText,
-    makeStyles, Menu, MenuItem,
+    makeStyles, Menu, MenuItem, SvgIcon,
     Toolbar,
     Typography,
     useTheme
 } from "@material-ui/core";
+import {ReactComponent as AccountIcon} from "../../res/icons/account.svg";
+import {ReactComponent as NotificationIcon} from "../../res/icons/notification.svg";
+import {ReactComponent as TestTubeIcon} from "../../res/icons/test-tube.svg";
+import {ReactComponent as AppointmentIcon} from "../../res/icons/appointment.svg";
 import MenuIcon from '@material-ui/icons/Menu';
-import PersonIcon from '@material-ui/icons/Person';
-import PizzaIcon from '@material-ui/icons/LocalPizza';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import NotificationIcon from '@material-ui/icons/Notifications';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -80,7 +81,7 @@ const myStyles = makeStyles(theme => ({
         color: theme.palette.text.secondary
     },
     drawerToggle: {
-      color: theme.palette.text.secondary,
+        color: theme.palette.text.secondary,
     },
     toolbar: {
         display: 'flex',
@@ -120,7 +121,7 @@ const myStyles = makeStyles(theme => ({
         color: 'inherit',
     },
     inputInput: {
-        padding: theme.spacing(1,1,1,7),
+        padding: theme.spacing(1, 1, 1, 7),
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('sm')]: {
@@ -146,10 +147,16 @@ const myToolbarElementsStyles = makeStyles(theme => ({
     },
 }));
 
+const myIconStyles = makeStyles(theme => ({
+    icon: {
+        color: 'inherit',
+    },
+}));
+
 const toolbarElementsList = [
     {id: 'notifications', image: (<NotificationIcon/>), text: 'notifications'},
-    {id: 'profile', image: (<PersonIcon/>), text: 'profile'},
-    isDebug() ? {id: 'admin', image: (<PizzaIcon/>), text: 'admin'} : {},
+    {id: 'profile', image: (<AccountIcon/>), text: 'profile'},
+    isDebug() ? {id: 'admin', image: (<TestTubeIcon/>), text: 'admin'} : {},
 ];
 
 const createDivider = () => {
@@ -157,14 +164,15 @@ const createDivider = () => {
 };
 
 const menuElementsList = [
-    {id: MenuItemId.Dashboard, image: (<DashboardIcon/>), text: 'Dashboard', type: MenuItemType.Element},
-    {id: MenuItemId.Schedule, image: (<ScheduleIcon />), text: 'Schedule a meeting', type: MenuItemType.Element},
+    {id: MenuItemId.Dashboard, image: (<DashboardIcon/>), text: 'dashboard', type: MenuItemType.Element},
+    {id: MenuItemId.Schedule, image: (<ScheduleIcon/>), text: 'schedule', type: MenuItemType.Element},
     createDivider(),
 ];
 
 function ToolbarElements() {
     const classes = myToolbarElementsStyles();
     let [anchorElement, setAnchorElement] = React.useState(undefined);
+    const {t} = useTranslation('navigation-elements-toolbar');
 
     const handleMobileClick = (event: any) => {
         setAnchorElement(event.currentTarget);
@@ -175,16 +183,22 @@ function ToolbarElements() {
     };
 
     function MobileMenu() {
+        const {t} = useTranslation('navigation-elements-toolbar');
+
         return (
             <Menu anchorEl={anchorElement} anchorOrigin={{vertical: 'top', horizontal: 'right'}} keepMounted
-                  transformOrigin={{vertical: 'top', horizontal: 'right'}} open={Boolean(anchorElement)} onClose={handleMobileClose}>
+                  transformOrigin={{vertical: 'top', horizontal: 'right'}} open={Boolean(anchorElement)}
+                  onClose={handleMobileClose}>
                 {toolbarElementsList.map(elem => {
+                    const languageKey: string = elem.text ? elem.text : '';
                     return (
                         <MenuItem onClick={handleMobileClose}>
                             <IconButton aria-label={elem.text} color="inherit">
-                                {elem.image}
+                                <SvgIcon color={'inherit'}>
+                                    {elem.image}
+                                </SvgIcon>
                             </IconButton>
-                            <p>{elem.text}</p>
+                            <p>{t((languageKey))}</p>
                         </MenuItem>
                     )
                 })}
@@ -198,8 +212,10 @@ function ToolbarElements() {
                 <div className={classes.sectionDesktop}>
                     {toolbarElementsList.map(element => {
                         return (
-                            <IconButton>
-                                {element.image}
+                            <IconButton color={'default'} title={t((element.text ? element.text : ''))}>
+                                <SvgIcon color={'inherit'}>
+                                    {element.image}
+                                </SvgIcon>
                             </IconButton>
                         );
                     })}
@@ -233,6 +249,9 @@ export default function (Props: NavigationProps) {
         setOpen(!open);
     }
 
+    const {t} = useTranslation('navigation-elements');
+
+
     return (
         <>
             <AppBar position='fixed' className={clsx(classes.appbar, {
@@ -246,15 +265,17 @@ export default function (Props: NavigationProps) {
                     <Typography variant={'h6'} noWrap>My meeting planner</Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
-                            <CreateIcon />
+                            <SvgIcon>
+                                <AppointmentIcon />
+                            </SvgIcon>
                         </div>
                         <InputBase
-                            placeholder="Quick planner"
+                            placeholder={t("quick-planner-label")}
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
                             }}
-                            inputProps={{ 'aria-label': 'search' }}
+                            inputProps={{'aria-label': 'search'}}
                         />
                     </div>
                     <div className={classes.grow}/>
@@ -285,7 +306,7 @@ export default function (Props: NavigationProps) {
                         return (
                             <ListItem button key={elem.id} onClick={() => handleMenuClick(elem.id)}>
                                 <ListItemIcon className={classes.drawerItem}>{elem.image}</ListItemIcon>
-                                <ListItemText primary={elem.text} className={classes.drawerItem}/>
+                                <ListItemText primary={t(elem.text ? elem.text : '')} className={classes.drawerItem}/>
                             </ListItem>
                         );
                     } else if (elem.type === MenuItemType.Divider) {

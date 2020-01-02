@@ -5,6 +5,19 @@ i18n.use(LanguageDetector).init({
     resources: {
         en: {
             'my-meeting-plan': {},
+            'navigation-elements': {
+                'dashboard': 'Dashboard',
+                'schedule': 'Schedule a meeting',
+                'quick-planner-label': 'Quick planner',
+            },
+            'navigation-elements-toolbar': {
+                'notifications': 'Notifications',
+                'profile': 'Profile',
+                'admin': 'Admin Dashboard',
+            },
+            'schedule-steps': {
+
+            },
             'schedule-time-content': {
                 'deactivate-auto-time': 'Deactivate auto time',
                 'activate-auto-time': 'Activate auto time',
@@ -17,7 +30,8 @@ i18n.use(LanguageDetector).init({
                 'presets-label': 'Presets',
             },
         },
-        de: {},
+        de: {
+        },
     },
 
 

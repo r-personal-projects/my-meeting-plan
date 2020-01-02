@@ -1,4 +1,4 @@
-import React, {ReactComponentElement, useState} from "react";
+import React, {Component, ReactComponentElement} from "react";
 import {
     createStyles,
     Grid,
@@ -14,6 +14,7 @@ import {
 // noinspection SpellCheckingInspection
 import clsx from 'clsx';
 import {GeneralContent, TimeContent} from "./schedule/Components";
+import {useTranslation} from "react-i18next";
 
 
 const myStyles = makeStyles(theme => ({
@@ -85,50 +86,39 @@ class ScheduleStepperParameter {
 }
 
 class ScheduleStepData {
-    constructor(label: string) {
-        this.label = label;
-    }
-
+    key: string = '';
     xs: boolean | "auto" | 1 | 2 | 12 | 6 | 3 | 4 | 5 | 7 | 8 | 9 | 10 | 11 = 12;
     sm: boolean | "auto" | 1 | 2 | 12 | 6 | 3 | 4 | 5 | 7 | 8 | 9 | 10 | 11 = 6;
     lg: boolean | "auto" | 1 | 2 | 12 | 6 | 3 | 4 | 5 | 7 | 8 | 9 | 10 | 11 = 6;
-    label: string;
     optional?: boolean;
 }
 
-class ScheduleStep {
-    constructor(data: any, content: ReactComponentElement<any>) {
-        this.data = data;
-        this.content = content;
-    }
-
-    data: any;
-    content: ReactComponentElement<any>;
-}
-
-const stepIds = ['general', 'time', 'attendees', 'place'];
+const stepDataArray: ScheduleStepData[] = [
+    {key: 'general', xs: 12, sm: 6, lg: 6},
+    {key: 'attendees', xs: 12, sm: 6, lg: 3, optional: true},
+    {key: 'time', xs: 12, sm: 6, lg: 3, optional: true},
+    {key: 'place', xs: 12, sm: 6, lg: 12, optional: true}
+];
 
 function getStepContent(stepId: string, scheduleStepperParameter: ScheduleStepperParameter) {
     const classes = myStyles();
-    const stepData: ScheduleStepData | undefined = getStepData.get(stepId);
+    const stepData: ScheduleStepData | undefined = stepDataArray.find(value => value.key === stepId);
     const step = scheduleStepperParameter.step;
 
     if (stepData === undefined)
         return (<></>);
-
-    const heading = stepData.label;
 
     let myContent: ReactComponentElement<any>;
 
     switch (stepId) {
         case 'general':
             myContent = (
-                <GeneralContent />
+                <GeneralContent/>
             );
             break;
         case 'time':
             myContent = (
-                <TimeContent />
+                <TimeContent/>
             );
             break;
         case 'attendees':
@@ -138,7 +128,7 @@ function getStepContent(stepId: string, scheduleStepperParameter: ScheduleSteppe
             myContent = (<div>Content of fourth element</div>);
             break;
         default:
-            throw new Error('Unimplemented step: '+ stepId);
+            throw new Error('Unimplemented step: ' + stepId);
     }
 
     return (
@@ -147,7 +137,7 @@ function getStepContent(stepId: string, scheduleStepperParameter: ScheduleSteppe
                 [classes.active]: step === stepId
             })}>
                 <Typography>
-                    {heading}
+                    {getHeading(step)}
                 </Typography>
                 {myContent}
             </Paper>
@@ -155,63 +145,38 @@ function getStepContent(stepId: string, scheduleStepperParameter: ScheduleSteppe
     );
 }
 
-const createStepData = () => {
-    const map = new Map<string, ScheduleStepData>();
-    map.set('general', {
-        label: 'Important things',
-        xs: 12, sm: 6, lg: 6
-    });
-    map.set('attendees', {
-        label: 'Attendees',
-        xs: 12, sm: 6, lg: 3, optional: true
-    });
-    map.set('time', {
-        label: 'Time',
-        xs: 12, sm: 6, lg: 3, optional: true
-    });
-    map.set('place', {
-        label: 'Place',
-        xs: 12, sm: 6, lg: 12, optional: true
-    });
+const getHeading = (step: string) => {
+    //const {t} = useTranslation('schedule-steps');
+    //const heading = '';
+    // const {t} = useTranslation('schedule-steps');
 
-    return map;
+    return (<div>ABC</div>);
 };
-
-const getStepData: Map<string, ScheduleStepData> = createStepData();
-
-const getSteps = (params: ScheduleStepperParameter) => {
-    const stepData = getStepData;
-    const result: ScheduleStep[] = [];
-
-
-    stepIds.forEach(key => {
-        const step = stepData.get(key);
-        result.push(new ScheduleStep(step, getStepContent(key, params)));
-    });
-
-    return result;
-};
-
 
 function ScheduleStepper(param: ScheduleStepperParameter) {
     const classes = stepperStyles();
-    const step = stepIds.indexOf(param.step);
+    // const step = stepIds.indexOf(param.step);
+    const {t} = useTranslation('schedule-steps');
+    const stepName: string = t(param.step) ? t(param.step).toString() : '';
 
     return (
         <>
-            <Stepper alternativeLabel activeStep={step} orientation={'horizontal'}>
-                {getSteps(param).map((step: ScheduleStep) => {
-                    return (
-                        <Step key={step.data.label}>
-                            <StepLabel>{step.data.label}
-                                <Typography variant="caption" className={clsx({
-                                    [classes.block]: step.data.optional,
-                                    [classes.hide]: !step.data.optional
-                                })}>Optional</Typography>
-                            </StepLabel>
-                        </Step>
-                    );
-                })}
+            <Stepper alternativeLabel activeStep={stepDataArray.findIndex(value => value.key === param.step)}
+                     orientation={'horizontal'}>
+                {
+                    stepDataArray.map((step: ScheduleStepData) => {
+                        return (
+                            <Step key={stepName}>
+                                <StepLabel>{t(stepName)}
+                                    <Typography variant="caption" className={clsx({
+                                        [classes.block]: step.optional,
+                                        [classes.hide]: !step.optional
+                                    })}>Optional</Typography>
+                                </StepLabel>
+                            </Step>
+                        )
+                    })
+                }
             </Stepper>
         </>
     );
@@ -233,11 +198,11 @@ export default function () {
                 <Grid component={'form'} container spacing={belowXs ? 1 : 3}>
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
-                           {ScheduleStepper(scheduleStepperParameter)}
+                            {ScheduleStepper(scheduleStepperParameter)}
                         </Paper>
                     </Grid>
-                    {getSteps(scheduleStepperParameter).map((step) => {
-                        return (step.content);
+                    {stepDataArray.map((step) => {
+                        return (getStepContent(step.key, step));
                     })}
                 </Grid>
             </div>
