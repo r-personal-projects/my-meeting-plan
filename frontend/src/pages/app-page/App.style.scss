@@ -1,0 +1,15 @@
+@import "../../styles";
+
+.root {
+  display: flex;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 5em 1em 5em 1em !important;
+
+  @include breakpoint('xs') {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

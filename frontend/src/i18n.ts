@@ -9,6 +9,8 @@ i18n.use(LanguageDetector).init({
                 'dashboard': 'Dashboard',
                 'schedule': 'Schedule a meeting',
                 'quick-planner-label': 'Quick planner',
+                'open-drawer': 'Open drawer',
+                'app-heading': 'my-meeting.io',
             },
             'navigation-elements-toolbar': {
                 'notifications': 'Notifications',

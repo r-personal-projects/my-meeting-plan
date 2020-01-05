@@ -1,0 +1,31 @@
+@import '../../styles';
+
+.component-login-root {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.component-login-container {
+  width: 100%;
+  padding-left: 1em;
+  padding-right: 1em;
+
+  & > * {
+    margin-top: 1em;
+  }
+}
+
+.component-login-card {
+  width: 100%;
+  padding: 1em;
+}
+
+.component-login-error {
+  @include setColor(color, 'error');
+}
+
+.component-login-hide {
+  display: none;
+}

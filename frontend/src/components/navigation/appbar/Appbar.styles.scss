@@ -1,0 +1,79 @@
+@import "../../../styles";
+@import "../drawer/Drawer.styles";
+
+.appbar {
+  z-index: 1000 !important;
+  transition: width ease, margin-left ease, margin-right ease, margin-top ease, margin-bottom ease !important;
+  -webkit-transition: width ease, margin-left ease, margin-right ease, margin-top ease, margin-bottom ease !important;
+}
+
+.appbar-shift {
+  margin-left: $drawer-width !important;
+  width: calc(100% - #{$drawer-width}) !important;
+
+  transition: width ease, margin-left ease, margin-right ease, margin-top ease, margin-bottom ease !important;
+  -webkit-transition: width ease, margin-left ease, margin-right ease, margin-top ease, margin-bottom ease !important;
+}
+
+.menu-button {
+  color: white !important;
+
+  &:hover {
+    transition: transform 0.25s ease-in-out;
+    transform: rotateZ(90deg);
+  }
+}
+
+.appbarHeading {
+  white-space: nowrap;
+}
+
+.search {
+  position: relative;
+  border-radius: 1em;
+  margin-right: 2em;
+  margin-left: 1em;
+  width: 100%;
+
+  @include setColorTransparent(background, 'background', 0.15);
+
+  &:hover {
+    @include setColorTransparent(background, 'background', 0.25);
+  }
+
+  @include breakpoint('sm') {
+    margin-left: 3em;
+    width: auto;
+
+    &.focused {
+      width: 50%;
+    }
+  }
+}
+
+.grow {
+  flex-grow: 1;
+}
+
+.search-icon {
+  width: 2em;
+  height: 100%;
+  position: absolute;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input {
+  color: inherit;
+  padding: 10px 10px 10px 30px;
+  width: 100% !important;
+
+  transition: width 1s ease !important;
+  -webkit-transition: width ease !important;
+
+  @include breakpoint(sm) {
+    width: 200px;
+  }
+}

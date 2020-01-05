@@ -201,9 +201,9 @@ export default function () {
                             {ScheduleStepper(scheduleStepperParameter)}
                         </Paper>
                     </Grid>
-                    {stepDataArray.map((step) => {
-                        return (getStepContent(step.key, step));
-                    })}
+                    {/*stepDataArray.map((step) => {
+                        //return (getStepContent(step.key, step));
+                    })*/}
                 </Grid>
             </div>
         </>

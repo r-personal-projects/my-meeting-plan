@@ -1,0 +1,46 @@
+@import "~material-colors/dist/colors";
+
+$md-error: $md-orange-700;
+$md-warning: $md-yellow-700;
+
+$dark-colors: (
+        "primary": $md-blue-700,
+        "error": $md-orange-700,
+        "background": $md-grey-900,
+        "text-sec": $md-grey-300,
+);
+
+$light-colors: (
+        "primary": $md-blue-400,
+        "error": $md-orange-700,
+        "background": $md-grey-50,
+        "text-sec": $md-grey-700,
+);
+
+@mixin setColorTransparent($property, $color, $transparency, $suffix: '') {
+  @if ($suffix == '') {
+    #{$property}: rgba(map_get($light-colors, $color), $transparency);
+    @media (prefers-color-scheme: dark) {
+      #{$property}: rgba(map_get($dark-colors, $color), $transparency);
+    }
+  } @else {
+    #{$property}: rgba(map_get($light-colors, $color), $transparency) $suffix;
+    @media (prefers-color-scheme: dark) {
+      #{$property}: rgba(map_get($dark-colors, $color), $transparency) $suffix;
+    }
+  }
+}
+
+@mixin setColor($property, $color, $suffix: '') {
+  @if ($suffix == '') {
+    #{$property}: map_get($light-colors, $color);
+    @media (prefers-color-scheme: dark) {
+      #{$property}: map_get($dark-colors, $color);
+    }
+  } @else {
+    #{$property}: map_get($light-colors, $color) $suffix;
+    @media (prefers-color-scheme: dark) {
+      #{$property}: map_get($dark-colors, $color) $suffix;
+    }
+  }
+}

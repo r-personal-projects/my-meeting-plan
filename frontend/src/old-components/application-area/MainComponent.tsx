@@ -1,5 +1,4 @@
 import React from "react";
-import NavigationElements from "./service-components/NavigationElements";
 import {makeStyles} from "@material-ui/core";
 import {MenuItemId} from "../../constants/Navigation";
 import Schedule from "./service-components/Schedule";
@@ -44,10 +43,8 @@ export default function () {
     return (
         <>
             <div className={classes.root}>
-                <NavigationElements Callback={navigationHandler}/>
                 <main className={classes.content}>
                     <div className={classes.toolbar}/>
-
                     <BrowserRouter>
                         <Switch>
                             <Route path={(path + '/' + MenuItemId.Schedule)}>

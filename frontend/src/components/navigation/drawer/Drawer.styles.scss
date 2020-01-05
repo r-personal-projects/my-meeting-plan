@@ -1,0 +1,47 @@
+$drawer-width: 300px;
+
+
+.drawer {
+  z-index: 999;
+  width: $drawer-width;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.open {
+  width: $drawer-width;
+  transition: width ease 1s;
+  -webkit-transition: width ease 1s;
+}
+
+.closed {
+  transition: width ease 1s;
+  -webkit-transition: width ease 1s;
+  overflow-x: hidden;
+  width: 10px;
+
+
+  @include breakpoint('sm') {
+    width: 4em;
+  }
+
+  @include breakpoint('xs', max) {
+    display: none;
+  }
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.drawer-toggle {
+  @include setColor(color, 'text-sec');
+  margin-top: 10px !important;
+  margin-bottom: 30px !important;
+}
+
+.drawer-item {
+  @include setColor(color, 'text-sec');
+}
