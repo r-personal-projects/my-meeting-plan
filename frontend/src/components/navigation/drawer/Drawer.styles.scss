@@ -18,11 +18,11 @@ $drawer-width: 300px;
   transition: width ease 1s;
   -webkit-transition: width ease 1s;
   overflow-x: hidden;
-  width: 10px;
+  width: 4em;
 
 
-  @include breakpoint('sm') {
-    width: 4em;
+  @include breakpoint('md') {
+    width: $drawer-width;
   }
 
   @include breakpoint('xs', max) {
@@ -43,5 +43,17 @@ $drawer-width: 300px;
 }
 
 .drawer-item {
+  @include setColor(background, 'paper-background');
+
+  transition: filter 0.5s cubic-bezier(0.25, 0.45, 0.25, 0.25), opacity 0.5s cubic-bezier(0.25, 0.45, 0.25, 0.25);
+
+  &:hover {
+    cursor: pointer;
+
+    @include hoverEffect();
+  }
+}
+
+.drawer-content {
   @include setColor(color, 'text-sec');
 }

@@ -31,6 +31,14 @@ i18n.use(LanguageDetector).init({
                 'description-label': 'Describe the agenda of your meeting',
                 'presets-label': 'Presets',
             },
+            'login-component': {
+                'username-label': 'Username',
+                'password-label': 'Password',
+                'register-label': 'Register',
+                'login-label': 'Login',
+                'login-error-label': 'Login failed',
+                'heading': 'Sign in',
+            }
         },
         de: {
         },

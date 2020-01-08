@@ -1,11 +1,18 @@
-@import '../../styles';
+@import "../../styles";
 
-.component-login-root {
+
+.component-root {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+.component-card {
+  width: 100%;
+  padding: 1em;
+}
+
 
 .component-login-container {
   width: 100%;
@@ -17,15 +24,25 @@
   }
 }
 
-.component-login-card {
-  width: 100%;
-  padding: 1em;
-}
-
-.component-login-error {
+.component-error {
   @include setColor(color, 'error');
 }
 
 .component-login-hide {
   display: none;
+}
+
+.submit-button-group {
+  margin-top: 20px;
+  display: flex;
+  align-items: end;
+}
+
+.submit-button {
+  flex-direction: row;
+  width: 50% !important;
+}
+
+.heading {
+
 }

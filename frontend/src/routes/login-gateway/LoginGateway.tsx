@@ -6,11 +6,11 @@ import {User} from "../../services/authentication/User";
 import {getUser, isAuthenticated} from "../../services/authentication/AuthenticationService";
 
 
-interface IProps {
+interface IProps extends RouteComponentProps {
 }
 
-export const LoginGateway = (props: IProps) => {
-    const [isLoggedIn, setLoggedIn] = useState(false);
+export const LoginGateway = withRouter((props: IProps) => {
+    const [isLoggedIn, setLoggedIn] = useState<boolean | undefined>(undefined);
     const [user, setUser] = useState<User>({name: '', username: ''});
 
     useEffect(() => {
@@ -25,11 +25,12 @@ export const LoginGateway = (props: IProps) => {
                         {isLoggedIn ? <Redirect to={'/app'}/> : <LoginPage/>}
                     </Route>
                     <Route path={'/app'}>
-                        {isLoggedIn && user !== undefined ?
-                            <AppPage user={user} /> : <Redirect to={'/login'}/>}
+                        {isLoggedIn === undefined ? 'Loading...'
+                            : isLoggedIn && user !== undefined ?
+                                <AppPage user={user}/> : <Redirect to={'/login'}/>}
                     </Route>
                 </Switch>
             </BrowserRouter>
         </>
     );
-};
+});

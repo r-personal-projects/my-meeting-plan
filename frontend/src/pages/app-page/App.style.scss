@@ -1,7 +1,9 @@
 @import "../../styles";
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
 .root {
   display: flex;
+  font-family: Roboto, serif;
 }
 
 .content {

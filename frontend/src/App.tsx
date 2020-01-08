@@ -28,21 +28,6 @@ const App: React.FC = () => {
                     </Switch>
                 </I18nextProvider>
             </ThemeProvider>
-
-            {/*
-            <ThemeProvider theme={getDefaultTheme(prefersDarkMode)}>
-                <I18nextProvider i18n={i18n}>
-                    <CssBaseline/>
-                    <Router>
-                        <Switch>
-                            <Route path='/(app|login)'>
-                                <LoginGateway/>
-                            </Route>
-                        </Switch>
-                    </Router>
-                </I18nextProvider>
-            </ThemeProvider>
-            */}
         </>
     );
 };

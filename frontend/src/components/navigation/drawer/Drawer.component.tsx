@@ -45,8 +45,8 @@ export function DrawerMenu(props: IProps) {
                 'closed': !open
             })} classes={{
                 paper: clsx({
-                    ['open']: open,
-                    ['closed']: !open
+                    'open': open,
+                    'closed': !open
                 }),
             }} open={open}>
                 <div className={'toolbar'}>
@@ -60,18 +60,18 @@ export function DrawerMenu(props: IProps) {
                 {menuElementsList.map(item => {
                     if (item.type === MenuItemType.Element) {
                         return (
-                            <ListItem key={item.id} onClick={() => handleMenuClick(item.id)}>
-                                <ListItemIcon><SvgIcon className={'drawer-item'}>{item.image}</SvgIcon></ListItemIcon>
-                                <ListItemText primary={t(item.text ? item.text : '')} className={'drawer-item'}/>
+                            <ListItem className={'drawer-item'} key={item.id} onClick={() => handleMenuClick(item.id)}>
+                                <ListItemIcon><SvgIcon className={'drawer-content'}>{item.image}</SvgIcon></ListItemIcon>
+                                <ListItemText primary={t(item.text ? item.text : '')} className={'drawer-content'}/>
                             </ListItem>
                         )
                     } else if (item.type === MenuItemType.Divider) {
                         return (
-                            <Divider/>
+                            <Divider key={item.id}/>
                         );
                     } else {
                         return (
-                            <ListItem>
+                            <ListItem key={item.id}>
                                 ERROR
                             </ListItem>
                         );

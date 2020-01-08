@@ -25,7 +25,7 @@ export function isAuthenticated() {
 
     //return authenticated;
 
-    return true;
+    return false;
 }
 
 export function authenticate(user: string, password: string, onSuccess: Function, onFail: Function) {
