@@ -35,6 +35,7 @@ i18n.use(LanguageDetector).init({
                 'username-label': 'Username',
                 'password-label': 'Password',
                 'register-label': 'Register',
+                'back-label': 'Create an account',
                 'login-label': 'Login',
                 'login-error-label': 'Login failed',
                 'heading': 'Sign in',

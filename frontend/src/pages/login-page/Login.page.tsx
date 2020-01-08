@@ -1,8 +1,6 @@
-import React, {useState} from "react";
-import {Card, Grid} from "@material-ui/core";
-import {LoginComponent} from "../../components/authentication/login/Login.component";
+import React from "react";
+import {Grid} from "@material-ui/core";
 import './Login.styles.scss';
-import {RegisterComponent} from "../../components/authentication/register/Register.component";
 import {AuthenticationComponent} from "../../components/authentication/AuthenticationContent.component";
 
 export const LoginPage = () => {

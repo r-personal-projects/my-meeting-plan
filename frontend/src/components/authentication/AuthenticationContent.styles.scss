@@ -32,17 +32,32 @@
   display: none;
 }
 
-.submit-button-group {
+.back-button-group {
   margin-top: 20px;
-  display: flex;
-  align-items: end;
+  float: right;
+  width: 25%;
+}
+
+.back-button {
+  margin-top: 2em;
+  align-self: end;
+}
+
+.submit-button-group {
+  width: calc(100% - 2em);
+  margin: 1em;
 }
 
 .submit-button {
-  flex-direction: row;
-  width: 50% !important;
+  align-self: center;
+  width: 100%;
 }
 
 .heading {
+  text-align: left;
+}
 
+.google-button {
+  width: calc(100% - 2em);
+  margin: 0 1em 1em 1em;
 }
