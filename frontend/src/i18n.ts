@@ -17,9 +17,7 @@ i18n.use(LanguageDetector).init({
                 'profile': 'Profile',
                 'admin': 'Admin Dashboard',
             },
-            'schedule-steps': {
-
-            },
+            'schedule-steps': {},
             'schedule-time-content': {
                 'deactivate-auto-time': 'Deactivate auto time',
                 'activate-auto-time': 'Activate auto time',
@@ -39,10 +37,18 @@ i18n.use(LanguageDetector).init({
                 'login-label': 'Login',
                 'login-error-label': 'Login failed',
                 'heading': 'Sign in',
-            }
+            },
+            'register-component': {
+                'name-label': 'Name',
+                'username-label': 'Username',
+                'password-label': 'Password',
+                'back-label': 'Go to Login',
+                'register-label': 'Register',
+                'login-error-label': 'Register failed',
+                'heading': 'Start using the app',
+            },
         },
-        de: {
-        },
+        de: {},
     },
 
 

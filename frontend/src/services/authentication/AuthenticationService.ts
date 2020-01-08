@@ -25,7 +25,7 @@ export function isAuthenticated() {
 
     //return authenticated;
 
-    return false;
+    return true;
 }
 
 export function authenticate(user: string, password: string, onSuccess: Function, onFail: Function) {
@@ -40,4 +40,15 @@ export function authenticate(user: string, password: string, onSuccess: Function
     }).fail(t => {
         onFail();
     })
+}
+
+interface NewUser {
+    name: string,
+    username: string,
+    password: string,
+}
+
+export function registerUser(user: NewUser, onSuccess: Function, onFail: Function) {
+    // do something with new user
+    onFail();
 }

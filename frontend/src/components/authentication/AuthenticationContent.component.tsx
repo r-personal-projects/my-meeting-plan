@@ -3,7 +3,7 @@ import {Button, ButtonGroup, Card, FormControl, TextField} from "@material-ui/co
 import './AuthenticationContent.styles.scss';
 import {useTranslation} from "react-i18next";
 import clsx from "clsx";
-import {authenticate} from "../../services/authentication/AuthenticationService";
+import {authenticate, registerUser} from "../../services/authentication/AuthenticationService";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import GoogleLogin from "react-google-login";
 
@@ -47,19 +47,26 @@ export const AuthenticationComponent = withRouter((props: IProps) => {
     const [isRegistering, setRegister] = useState(false);
 
     const [username, setUsername] = useState('');
+    const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const usernameInputID = 'username-input', passwordInputID = 'password-input';
+    const usernameInputID = 'username-input', passwordInputID = 'password-input', nameInputID = 'name-input';
     const {t: loginT} = useTranslation('login-component');
     const {t: registerT} = useTranslation('register-component');
 
     const handleInputChange = (event: any) => {
         const value = event.target.value;
 
-        if (event.target.id === usernameInputID) {
-            setUsername(value);
-        } else if (event.target.id === passwordInputID) {
-            setPassword(value);
+        switch (event.target.id) {
+            case usernameInputID:
+                setUsername(value);
+                break;
+            case passwordInputID:
+                setPassword(value);
+                break;
+            case nameInputID:
+                setName(value);
+                break;
         }
     };
 
@@ -70,18 +77,31 @@ export const AuthenticationComponent = withRouter((props: IProps) => {
         event.preventDefault();
     };
 
+    const handleRegister = (event: any) => {
+        registerUser({name: name, password: password, username: username},
+            () => props.history.push('/app'),
+            () => setErrorMessage(registerT('login-error-label')));
+        event.preventDefault();
+    };
+
     return (
         <form className={'component-root'}>
             <Card className={'component-card'}>
                 {isRegistering ?
-                    <AuthComponent heading={loginT('heading')} errorMessage={errorMessage} handleSubmit={() => {
-                    }}
-                                   handleBack={() => setRegister(false)} back={'back'} submit={'Register'}>
-
+                    <AuthComponent heading={registerT('heading')} errorMessage={errorMessage} handleSubmit={handleRegister}
+                                   handleBack={() => setRegister(false)} back={registerT('back-label')} submit={registerT('register-label')}>
+                        <FormControl fullWidth className={'component-container'}>
+                            <TextField id={nameInputID} onChange={handleInputChange} value={name} label={registerT('name-label')}
+                                       type={'name'}/>
+                            <TextField id={usernameInputID} onChange={handleInputChange} value={username} label={registerT('username-label')}
+                                       type={'text'}/>
+                            <TextField id={passwordInputID} onChange={handleInputChange} value={password} label={registerT('password-label')}
+                                       type={'password'}/>
+                        </FormControl>
                     </AuthComponent>
                     : <AuthComponent heading={loginT('heading')} errorMessage={errorMessage} handleSubmit={handleLogin}
-                                     handleBack={() => setRegister(true)} back={loginT('back-label')} submit={'Login'}>
-                        <FormControl fullWidth className={'component-login-container'}>
+                                     handleBack={() => setRegister(true)} back={loginT('back-label')} submit={loginT('login-label')}>
+                        <FormControl fullWidth className={'component-container'}>
                             <TextField id={usernameInputID} onChange={handleInputChange} value={username}
                                        label={loginT('username-label')} type={'text'}/>
                             <TextField id={passwordInputID} onChange={handleInputChange} value={password}
