@@ -1,21 +1,22 @@
 version: '3'
 services:
   database:
-    image: 'mongo'
+    image: 'postgres'
+    restart: always
+    ports:
+    - 5432:5432
     container_name: 'meeting-plan-db'
     hostname: 'meeting-plan-db'
-    environment:
-      - MONGO_INITDB_DATABASE=my-meeting-db
-      - MONGO_INITDB_USERNAME=admin
-      - MONGO_INITDB_PASSWORD=admin
     volumes:
-    - ./init-db.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-    - ./mongo-volume:/data/db
-    ports:
-    - '27017-27019:27017-27019'
+      - ./postgres-volume:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d/
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
     networks:
-      database-net:
-        ipv4_address: 10.5.0.2
+      - database-net
+      - default
 
 networks:
   database-net:

@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="MongoDB - my-meeting-db@localhost" uuid="a883e66a-6920-49b2-95b5-f72a0f3fbb32">
-      <driver-ref>mongo</driver-ref>
+    <data-source source="LOCAL" name="postgres@database" uuid="c24e166a-2227-4cda-b911-3523c68f45e9">
+      <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.dbschema.MongoJdbcDriver</jdbc-driver>
-      <jdbc-url>mongodb://localhost:27017/my-meeting-db</jdbc-url>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="meeting_db@localhost" uuid="0e3f3d37-f1dc-423e-8e86-d4d75d49442e">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/meeting_db</jdbc-url>
     </data-source>
   </component>
 </project>
