@@ -1,10 +1,10 @@
-package one.rubeen.backend.meetingplan;
+package one.rubeen.backend.meetingplanner.authentication;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MeetingPlanApplicationTests {
+class AuthApplicationTests {
 
     @Test
     void contextLoads() {

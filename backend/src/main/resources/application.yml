@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: 'jdbc:postgresql://localhost:5432/meeting_db'
+    username: 'meeting_user'
+    password: 'meeting_user'
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+logging:
+  level:
+    one.rubeen: trace
