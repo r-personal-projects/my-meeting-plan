@@ -1,5 +1,5 @@
 module.exports = {
-    plugins: [{plugin: require('@semantic-ui-react/craco-less')}],
+    plugins: [{plugin: require('@semantic-ui-react/craco-less')}, {plugin: require('node-sass')}],
     rules: [
         // Whatever other rules you have here...
         {
