@@ -15,6 +15,7 @@
     "react-css-modules": "^4.7.11",
     "react-dom": "^16.12.0",
     "react-scripts": "3.4.0",
+    "react-scripts-scss-ts": "^2.17.1",
     "semantic-ui-react": "^0.88.2",
     "typescript": "^3.7.5"
   },
@@ -39,6 +40,7 @@
   "devDependencies": {
     "@craco/craco": "^5.6.3",
     "@semantic-ui-react/craco-less": "^1.2.1",
-    "semantic-ui-less": "^2.4.1"
+    "semantic-ui-less": "^2.4.1",
+    "typings-for-css-modules-loader": "^1.7.0"
   }
 }
